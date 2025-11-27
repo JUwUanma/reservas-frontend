@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "../api/axios";
 import { useNavigate, useParams } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
 
 
 const navigation = [
@@ -14,6 +15,7 @@ function classNames(...classes) {
 }
 
 export default function ProductsCompanies() {
+    const { user, logout, loading } = useContext(AuthContext);
     const { id } = useParams();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const navigate = useNavigate();
@@ -37,6 +39,15 @@ export default function ProductsCompanies() {
         navigate(href);
         setMobileMenuOpen(false);
     };
+
+    if (loading) {
+        return (
+            <div className="bg-gray-900 min-h-screen flex items-center justify-center">
+                <p className="text-white text-xl">Cargando...</p>
+            </div>
+        );
+    }
+
     return (
         <div className="bg-gray-900 min-h-screen flex flex-col text-gray-300">
             <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 backdrop-blur-md border-b border-slate-700/50 shadow-lg">
@@ -69,18 +80,29 @@ export default function ProductsCompanies() {
 
                     {/* Action Buttons */}
                     <div className="hidden md:flex space-x-4">
-                        <button
-                            onClick={() => handleNavigation('/login')}
-                            className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
-                        >
-                        Iniciar sesión
-                        </button>
-                        <button
-                            onClick={() => handleNavigation('/register')}
-                            className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-md hover:shadow-lg transition-all duration-200"
-                        >
-                        Registrarse
-                        </button>
+                        {!user ? (
+                            <>
+                                <button 
+                                    onClick={() => navigate('/login')}
+                                    className="px-4 py-2 text-gray-300 hover:text-white transition-colors"
+                                >
+                                    Iniciar sesión
+                                </button>
+                                <button 
+                                    onClick={() => navigate('/register')}
+                                    className="px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-md hover:shadow-lg transition-all duration-200"
+                                >
+                                    Registrarse
+                                </button>
+                            </>
+                        ) : (
+                            <button
+                                onClick={logout}
+                                className="px-4 py-2 bg-red-600 text-white rounded-md hover:shadow-lg transition-all duration-200"
+                            >
+                                Cerrar sesión
+                            </button>
+                        )}
                     </div>
 
                     {/* Mobile Menu Button */}
@@ -112,18 +134,29 @@ export default function ProductsCompanies() {
 
                         {/* Botones para móvil */}
                         <div className="mt-4 space-y-2">
-                        <button
-                            onClick={() => handleNavigation('/login')}
-                            className="w-full px-4 py-2 text-gray-300 hover:text-white transition-colors border border-gray-600 rounded-md"
-                        >
-                            Iniciar sesión
-                        </button>
-                        <button
-                            onClick={() => handleNavigation('/register')}
-                            className="w-full px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-md hover:shadow-lg transition-all"
-                        >
-                            Registrarse
-                        </button>
+                        {!user ? (
+                            <>
+                                <button
+                                    onClick={() => handleNavigation('/login')}
+                                    className="w-full px-4 py-2 text-gray-300 hover:text-white transition-colors border border-gray-600 rounded-md"
+                                >
+                                    Iniciar sesión
+                                </button>
+                                <button
+                                    onClick={() => handleNavigation('/register')}
+                                    className="w-full px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-md hover:shadow-lg transition-all"
+                                >
+                                    Registrarse
+                                </button>
+                            </>
+                        ) : (
+                            <button
+                                onClick={logout}
+                                className="w-full px-4 py-2 bg-red-600 text-white rounded-md hover:shadow-lg transition-all duration-200"
+                            >
+                                Cerrar sesión
+                            </button>
+                        )}
                         </div>
                     </nav>
                     )}

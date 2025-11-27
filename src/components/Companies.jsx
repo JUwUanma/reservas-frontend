@@ -35,6 +35,15 @@ export default function Companies() {
         navigate(href);
         setMobileMenuOpen(false);
     };
+
+    if (loading) {
+        return (
+            <div className="bg-gray-900 min-h-screen flex items-center justify-center">
+                <p className="text-white text-xl">Cargando...</p>
+            </div>
+        );
+    }
+
     return (
         <div className="bg-gray-900 min-h-screen flex flex-col text-gray-300">
             <header className="sticky top-0 z-50 bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 backdrop-blur-md border-b border-slate-700/50 shadow-lg">
@@ -121,18 +130,29 @@ export default function Companies() {
 
                         {/* Botones para móvil */}
                         <div className="mt-4 space-y-2">
-                        <button
-                            onClick={() => handleNavigation('/login')}
-                            className="w-full px-4 py-2 text-gray-300 hover:text-white transition-colors border border-gray-600 rounded-md"
-                        >
-                            Iniciar sesión
-                        </button>
-                        <button
-                            onClick={() => handleNavigation('/register')}
-                            className="w-full px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-md hover:shadow-lg transition-all"
-                        >
-                            Registrarse
-                        </button>
+                            {!user ? (
+                                <>
+                                    <button
+                                        onClick={() => handleNavigation('/login')}
+                                        className="w-full px-4 py-2 text-gray-300 hover:text-white transition-colors border border-gray-600 rounded-md"
+                                    >
+                                        Iniciar sesión
+                                    </button>
+                                    <button
+                                        onClick={() => handleNavigation('/register')}
+                                        className="w-full px-4 py-2 bg-gradient-to-r from-blue-500 to-purple-600 text-white rounded-md hover:shadow-lg transition-all"
+                                    >
+                                        Registrarse
+                                    </button>
+                                </>
+                            ) : (
+                                <button
+                                    onClick={logout}
+                                    className="w-full px-4 py-2 bg-red-600 text-white rounded-md hover:shadow-lg transition-all"
+                                >
+                                    Cerrar sesión
+                                </button>
+                            )}
                         </div>
                     </nav>
                     )}
