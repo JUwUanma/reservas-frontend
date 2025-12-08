@@ -21,7 +21,7 @@ export default function ProductsCompanies() {
 
 
     const [selectedProduct, setSelectedProduct] = useState(null); // para modal
-    const setReservationId = useState(null);
+    const [reservationId, setReservationId] = useState(null);
 
     const handleReserveClick = (product) => {
         if (!user || !user.id) {

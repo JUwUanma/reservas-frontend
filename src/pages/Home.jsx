@@ -36,7 +36,7 @@ export default function Home() {
                     Organiza y gestiona tus reservas de manera fácil y rápida.
                 </p>
                 <button
-                    onClick={() => handleNavigation('/companies')}
+                    onClick={() => navigate('/companies')}
                     className="mb-12 px-6 py-3 rounded-md bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold hover:shadow-lg transition duration-200"
                 >
                     Navegar Empresas
